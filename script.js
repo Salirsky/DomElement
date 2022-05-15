@@ -17,8 +17,6 @@ function DomElement(selector, height, width, bg, fontSize, text) {
   this.fontSize = fontSize;
   this.textContent = text;
   let newElem;
-  let col = "#2E16B1";
-  let propertyCSS;
 
   if (selector.startsWith(".")) {
     newElem = document.createElement("div");
