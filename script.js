@@ -17,6 +17,8 @@ function DomElement(selector, height, width, bg, fontSize, text) {
   this.fontSize = fontSize;
   this.textContent = text;
   let newElem;
+  let col = "#2E16B1";
+  let propertyCSS;
 
   if (selector.startsWith(".")) {
     newElem = document.createElement("div");
@@ -27,16 +29,12 @@ function DomElement(selector, height, width, bg, fontSize, text) {
     newElem.setAttribute("id", a);
   }
   newElem.textContent = text;
-  //Пoчему-то эта штука со стилями не работает
-  newElem.style.cssText = `height: height;  
-  width: width; 
-  background-color: bg; 
-  font-size: fontSize`;
+
+  newElem.style.cssText = `selector: ${this.selector}; height: ${this.height}; width: ${this.width}; background: ${this.bg}; fontSize: ${this.fontSize}`;
 
   support.insertAdjacentElement("afterend", newElem);
 }
 
 let domElement = new DomElement(a, b, c, d, e, f);
-//элемент.style.cssText = 'свойство 1: значение; свойство 2: значение...'
 
 console.log(domElement);
