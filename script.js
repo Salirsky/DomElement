@@ -1,6 +1,6 @@
 "use strict";
 
-const support = document.querySelector(".support");
+const body = document.querySelector("body");
 
 let a = ".block";
 let b = "100px";
@@ -28,11 +28,12 @@ function DomElement(selector, height, width, bg, fontSize, text) {
   }
   newElem.textContent = text;
 
-  newElem.style.cssText = `selector: ${this.selector}; height: ${this.height}; width: ${this.width}; background: ${this.bg}; fontSize: ${this.fontSize}`;
+  newElem.style.cssText = `selector: ${this.selector}; height: ${this.height}; width: ${this.width}; background: ${this.bg}; fontSize: ${this.fontSize}; position: absolute`;
 
-  support.insertAdjacentElement("afterend", newElem);
+  body.insertBefore(newElem, null);
 }
 
 let domElement = new DomElement(a, b, c, d, e, f);
 
 console.log(domElement);
+
