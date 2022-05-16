@@ -29,7 +29,9 @@ function DomElement(selector, height, width, bg, fontSize, text) {
   }
   newElem.textContent = text;
 
-  newElem.style.cssText = `selector: ${this.selector}; height: ${this.height}; width: ${this.width}; background: ${this.bg}; fontSize: ${this.fontSize}; position: absolute`;
+  newElem.style.cssText = `selector: ${this.selector}; height: ${this.height}; width: ${this.width}; background: ${this.bg}; fontSize: ${this.fontSize}; position: absolute, display: inline-block;
+  cursor: pointer;
+  margin: 0;`;
 
   body.insertBefore(newElem, null);
 }
@@ -38,20 +40,39 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM готов!");
 
   newEl();
-  // keyControl();
-});
 
-console.log(domElement);
+  //script.js:44 Uncaught TypeError: domElement.addEventListener is not a function
+  // at HTMLDocument.<anonymous> (script.js:44:14)
+  domElement.addEventListener("keydown", keyControl);
+});
 
 const newEl = function () {
   domElement = new DomElement(a, b, c, d, e, f);
   domElement.tabIndex = 0;
-  console.log(domElement);
 };
 
-// const keyControl = function () {
-//   domElement.addEventListener("click", function (event) {
-//     console.log("event");
-//   });
-// };
+const keyControl = function (event) {
+  if (
+    event.code != "ArrowRight" &&
+    event.code != "ArrowLeft" &&
+    event.code != "ArrowUp" &&
+    event.code != "ArrowDown"
+  )
+    return;
+
+  let rectElem = this.getBoundingClientRect();
+  let x = rectElem.x + 10,
+    y = rectElem.y + 10;
+
+  if (event.code == "ArrowRight") x += 10;
+  if (event.code == "ArrowLeft") x -= 10;
+  if (event.code == "ArrowUp") y -= 10;
+  if (event.code == "ArrowDown") y += 10;
+
+  this.style.position = "absolute";
+  this.style.left = x + "px";
+  this.style.top = y + "px";
+};
+
+
 
