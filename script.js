@@ -2,12 +2,13 @@
 
 const body = document.querySelector("body");
 
-let a = ".block";
+let a = "#block";
 let b = "100px";
 let c = "100px";
-let d = "#FF8300";
+let d = "#2E16B1";
 let e = "28px";
-let f = "Новый элемент";
+let f = " ";
+let domElement;
 
 function DomElement(selector, height, width, bg, fontSize, text) {
   this.selector = selector;
@@ -33,7 +34,24 @@ function DomElement(selector, height, width, bg, fontSize, text) {
   body.insertBefore(newElem, null);
 }
 
-let domElement = new DomElement(a, b, c, d, e, f);
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM готов!");
+
+  newEl();
+  // keyControl();
+});
 
 console.log(domElement);
+
+const newEl = function () {
+  domElement = new DomElement(a, b, c, d, e, f);
+  domElement.tabIndex = 0;
+  console.log(domElement);
+};
+
+// const keyControl = function () {
+//   domElement.addEventListener("click", function (event) {
+//     console.log("event");
+//   });
+// };
 
