@@ -13,7 +13,12 @@ let rectElem;
 let newElem;
 let x = 0;
 let y = 0;
+let elemStyle;
 
+const newEl = function () {
+  elem = new DomElement(a, b, c, d, e, f, x, y);
+  elem.tabIndex = 0;
+};
 const foo = function (event) {
   if (
     event.code != "ArrowRight" &&
@@ -28,22 +33,14 @@ const foo = function (event) {
   if (event.code == "ArrowUp") y -= 10;
   if (event.code == "ArrowDown") y += 10;
 
-  // elem.style.left = x + "px";
-  // elem.style.top = y + "px";
+  //   console.log(elem.elemNode.style);
+  elem.elemNode.style.left = x + "px";
+  elem.elemNode.style.top = y + "px";
 
-  x = x + "px";
-  y = y + "px";
+  //   console.log(x);
+  //   console.log(y);
 
-  //Это не работает =/
-  elem.style.cssText = `left: ${x};
-  top: ${y};  `;
-
-  console.log(elem);
-  console.log(rectElem);
-  console.log(x);
-  console.log(y);
-
-  console.log(DomElement);
+  //   console.log(elem.elemStyle);
 };
 
 function DomElement(selector, height, width, bg, fontSize, text, x, y) {
@@ -53,6 +50,8 @@ function DomElement(selector, height, width, bg, fontSize, text, x, y) {
   this.bg = bg;
   this.fontSize = fontSize;
   this.textContent = text;
+  this.x = x;
+  this.y = y;
 
   if (selector.startsWith(".")) {
     newElem = document.createElement("div");
@@ -65,35 +64,27 @@ function DomElement(selector, height, width, bg, fontSize, text, x, y) {
   newElem.textContent = text;
 
   rectElem = newElem.getBoundingClientRect();
-  this.x = rectElem.x + 10;
-  this.y = rectElem.y + 10;
 
   newElem.style.cssText = `selector: ${this.selector}; 
     height: ${this.height}; 
     width: ${this.width}; 
     background: ${this.bg}; 
-    fontSize: ${this.fontSize}; 
+    font-size: ${this.fontSize}; 
     position: absolute; 
     display: inline-block;
     cursor: pointer;
     margin: 0px;
-    left: ${this.x} + "px";
-    top: ${this.y} + "px";
+    left: ${this.x}px;
+    top: ${this.y}px;
     `;
-  // left = ${x} + "px";
-  // top = ${y} + "px";
 
-  console.log(rectElem);
-  console.log(x);
-  console.log(y);
-
-  body.insertBefore(newElem, null);
-
-  document.addEventListener("keydown", foo);
+  this.elemStyle = newElem.style.cssText;
+  //!!!!
+  this.elemNode = body.insertBefore(newElem, null); //return
 }
 
-elem = new DomElement(a, b, c, d, e, f);
-elem.tabIndex = 0;
-elem.style;
-console.log(elem.__proto__);
-console.log(elem.style);
+document.addEventListener("DOMContentLoaded", () => {
+  newEl();
+
+  document.addEventListener("keydown", foo);
+});
