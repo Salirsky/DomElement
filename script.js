@@ -1,22 +1,57 @@
 "use strict";
 
-const support = document.querySelector(".support");
+const body = document.querySelector("body");
 
-let a = ".block";
+let a = "#block";
 let b = "100px";
 let c = "100px";
-let d = "#FF8300";
+let d = "#2E16B1";
 let e = "28px";
-let f = "Новый элемент";
+let f = " ";
+let elem;
+let rectElem;
+let newElem;
+let x = 0;
+let y = 0;
+let elemStyle;
 
-function DomElement(selector, height, width, bg, fontSize, text) {
+const newEl = function () {
+  elem = new DomElement(a, b, c, d, e, f, x, y);
+  elem.tabIndex = 0;
+};
+const foo = function (event) {
+  if (
+    event.code != "ArrowRight" &&
+    event.code != "ArrowLeft" &&
+    event.code != "ArrowUp" &&
+    event.code != "ArrowDown"
+  )
+    return;
+
+  if (event.code == "ArrowRight") x += 10;
+  if (event.code == "ArrowLeft") x -= 10;
+  if (event.code == "ArrowUp") y -= 10;
+  if (event.code == "ArrowDown") y += 10;
+
+  //   console.log(elem.elemNode.style);
+  elem.elemNode.style.left = x + "px";
+  elem.elemNode.style.top = y + "px";
+
+  //   console.log(x);
+  //   console.log(y);
+
+  //   console.log(elem.elemStyle);
+};
+
+function DomElement(selector, height, width, bg, fontSize, text, x, y) {
   this.selector = selector;
   this.height = height;
   this.width = width;
   this.bg = bg;
   this.fontSize = fontSize;
   this.textContent = text;
-  let newElem;
+  this.x = x;
+  this.y = y;
 
   if (selector.startsWith(".")) {
     newElem = document.createElement("div");
@@ -28,11 +63,28 @@ function DomElement(selector, height, width, bg, fontSize, text) {
   }
   newElem.textContent = text;
 
-  newElem.style.cssText = `selector: ${this.selector}; height: ${this.height}; width: ${this.width}; background: ${this.bg}; fontSize: ${this.fontSize}`;
+  rectElem = newElem.getBoundingClientRect();
 
-  support.insertAdjacentElement("afterend", newElem);
+  newElem.style.cssText = `selector: ${this.selector}; 
+    height: ${this.height}; 
+    width: ${this.width}; 
+    background: ${this.bg}; 
+    font-size: ${this.fontSize}; 
+    position: absolute; 
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px;
+    left: ${this.x}px;
+    top: ${this.y}px;
+    `;
+
+  this.elemStyle = newElem.style.cssText;
+  //!!!!
+  this.elemNode = body.insertBefore(newElem, null); //return
 }
 
-let domElement = new DomElement(a, b, c, d, e, f);
+document.addEventListener("DOMContentLoaded", () => {
+  newEl();
 
-console.log(domElement);
+  document.addEventListener("keydown", foo);
+});
