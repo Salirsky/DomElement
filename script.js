@@ -1,7 +1,9 @@
 "use strict";
 
+//Получаем элемент из DOM, относительно которого будем добавлять на страницу создаваемый элемент.
 const body = document.querySelector("body");
 
+//Входные данные
 let a = "#block";
 let b = "100px";
 let c = "100px";
@@ -15,11 +17,14 @@ let x = 0;
 let y = 0;
 let elemStyle;
 
+// Объявляем фунцию для создания нового элемента
 const newEl = function () {
   elem = new DomElement(a, b, c, d, e, f, x, y);
   elem.tabIndex = 0;
 };
-const foo = function (event) {
+
+// Объявляем функцию для отработки движения элемента по странице
+const moveEl = function (event) {
   if (
     event.code != "ArrowRight" &&
     event.code != "ArrowLeft" &&
@@ -33,16 +38,11 @@ const foo = function (event) {
   if (event.code == "ArrowUp") y -= 10;
   if (event.code == "ArrowDown") y += 10;
 
-  //   console.log(elem.elemNode.style);
   elem.elemNode.style.left = x + "px";
   elem.elemNode.style.top = y + "px";
-
-  //   console.log(x);
-  //   console.log(y);
-
-  //   console.log(elem.elemStyle);
 };
 
+// Объявляем функцию-прототип для создаваемого объекта
 function DomElement(selector, height, width, bg, fontSize, text, x, y) {
   this.selector = selector;
   this.height = height;
@@ -79,12 +79,11 @@ function DomElement(selector, height, width, bg, fontSize, text, x, y) {
     `;
 
   this.elemStyle = newElem.style.cssText;
-  //!!!!
+  // Функции, которые создают объекты, обычно возвращают ссылки на эти объекты (!!!!)
   this.elemNode = body.insertBefore(newElem, null); //return
 }
-
+// Когда все DOM-дерево полностью загружено, создаём новый элемент и вызываем функцию движения.
 document.addEventListener("DOMContentLoaded", () => {
   newEl();
-
-  document.addEventListener("keydown", foo);
+  document.addEventListener("keydown", moveEl);
 });
